@@ -28,4 +28,9 @@ public class TaskQueue {
         tasks.add(task);
     }
 
+    public static void pushTask(TaskLambda lambda) {
+        var task = new Task(lambda);
+        pushTask(task);
+    }
+
 }
