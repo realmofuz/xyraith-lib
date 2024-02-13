@@ -1,0 +1,4 @@
+name: XyraithLib
+version: '${version}'
+main: net.realmofuz.xyraithlib.XyraithLib
+api-version: '1.20'
