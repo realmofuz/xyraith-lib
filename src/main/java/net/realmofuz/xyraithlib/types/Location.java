@@ -55,4 +55,54 @@ public final class Location {
         this.pitch = pitch;
         this.yaw = yaw;
     }
+
+    public Location shiftX(float shift) {
+        this.x += shift;
+        return this;
+    }
+
+    public Location shiftY(float shift) {
+        this.y += shift;
+        return this;
+    }
+
+    public Location shiftZ(float shift) {
+        this.z += shift;
+        return this;
+    }
+
+    public Location shiftPitch(float shift) {
+        this.pitch += shift;
+        return this;
+    }
+
+    public Location shiftYaw(float shift) {
+        this.yaw += shift;
+        return this;
+    }
+
+    public Location shiftForward(float shift) {
+        var vxz = -Math.cos(Math.toRadians(this.pitch));
+        var vy = -Math.sin(Math.toRadians(this.pitch));
+        var vx = -vxz * Math.sin(Math.toRadians(this.yaw));
+        var vz = vxz * Math.cos(Math.toRadians(this.yaw));
+
+        vx *= shift;
+        vy *= shift;
+        vz *= shift;
+
+        this.x -= vx;
+        this.y += vy;
+        this.z -= vz;
+
+        return this;
+    }
+
+    public Location clone() {
+        return new Location(this.world, this.x, this.y, this.z, this.pitch, this.yaw);
+    }
+
+    public String toString() {
+        return "[" + this.x + ", " + this.y + ", " + this.z + ", " + this.pitch + ", " + this.yaw + "]";
+    }
 }

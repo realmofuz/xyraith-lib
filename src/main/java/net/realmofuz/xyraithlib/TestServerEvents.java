@@ -5,20 +5,27 @@ import net.realmofuz.xyraithlib.events.EventMeta;
 import net.realmofuz.xyraithlib.events.ServerEvents;
 import net.realmofuz.xyraithlib.scheduler.Task;
 import net.realmofuz.xyraithlib.types.Item;
+import net.realmofuz.xyraithlib.types.Particle;
+import net.realmofuz.xyraithlib.types.ParticleType;
 import org.bukkit.Material;
+
+import java.nio.file.attribute.UserPrincipalLookupService;
 
 public class TestServerEvents implements ServerEvents {
     @Override
     public void serverStart() {
-        new Task(task -> {
+        Task.pushTask(task -> {
             SelectEntity.allPlayers().forEach(selection -> {
-                System.out.println("Task running!!!");
-                selection.sendActionBar(
-                        "<red>100/100 HP     <green>0 Defense     <aqua>100/100 Mana"
+                selection.playParticle(
+                        new Particle(ParticleType.CRIT_MAGIC).setSpeed(0),
+                        selection.getEyeLocation().shiftForward(5)
                 );
+
+                System.out.println(selection.getEyeLocation());
+                System.out.println(selection.getEyeLocation().shiftForward(5));
             });
-            task.pushToQueue(1);
-        }).pushToQueue(0);
+            task.repeat(1);
+        });
     }
 
     @Override

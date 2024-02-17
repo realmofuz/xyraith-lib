@@ -6,7 +6,9 @@ public class Task {
     public int startTime;
 
     public Task(TaskLambda task) {
+
         this.task = task;
+        this.pushToQueue(0);
     }
 
     public TaskLambda getTaskLambda() {
@@ -20,5 +22,14 @@ public class Task {
     public void pushToQueue(int delay) {
         this.delay = delay;
         TaskQueue.pushTask(this);
+    }
+
+    public void repeat(int delay) {
+        this.delay = delay;
+        TaskQueue.pushTask(this);
+    }
+
+    public static void pushTask(TaskLambda lambda) {
+        new Task(lambda);
     }
 }

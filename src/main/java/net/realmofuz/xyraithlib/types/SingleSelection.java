@@ -3,6 +3,7 @@ package net.realmofuz.xyraithlib.types;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.title.Title;
 import net.realmofuz.xyraithlib.Utils;
+import net.realmofuz.xyraithlib.actions.EntityDataStorage;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -107,5 +108,27 @@ public final class SingleSelection {
             return ((Player) entity).getSaturation();
         }
         return 0.0f;
+    }
+
+    public void playParticle(Particle particle, Location location) {
+        if(entity instanceof Player) {
+            particle.render(location, (Player) entity);
+        }
+    }
+
+    public Location getLocation() {
+        return new Location(entity.getLocation());
+    }
+
+    public Location getEyeLocation() {
+        return new Location(entity.getLocation()).shiftY(1.8f);
+    }
+
+    public void setTag(String key, Object value) {
+        EntityDataStorage.set(entity.getUniqueId(), value);
+    }
+
+    public Object getTag(String key) {
+        return EntityDataStorage.get(entity.getUniqueId());
     }
 }
