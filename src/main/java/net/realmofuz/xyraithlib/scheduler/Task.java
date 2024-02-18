@@ -1,5 +1,7 @@
 package net.realmofuz.xyraithlib.scheduler;
 
+import net.realmofuz.xyraithlib.lambdas.TaskLambda;
+
 public class Task {
     TaskLambda task;
     int delay;

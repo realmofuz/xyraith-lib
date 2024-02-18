@@ -1,5 +1,7 @@
 package net.realmofuz.xyraithlib.scheduler;
 
+import net.realmofuz.xyraithlib.lambdas.TaskLambda;
+
 import java.util.ArrayList;
 import java.util.List;
 

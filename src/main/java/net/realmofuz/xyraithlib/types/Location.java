@@ -81,21 +81,86 @@ public final class Location {
         return this;
     }
 
-    public Location shiftForward(float shift) {
+    public Location shift(double x, double y, double z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+        return this;
+    }
+
+    public Location shift(Vector vector) {
+        this.x += vector.getX();
+        this.y += vector.getY();
+        this.z += vector.getZ();
+        return this;
+    }
+
+    public Location shift(double x, double y, double z, float pitch, float yaw) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+        this.pitch += pitch;
+        this.yaw += yaw;
+        return this;
+    }
+
+
+    public double getX() {
+        return this.x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
+
+    public double getZ() {
+        return this.z;
+    }
+
+    public float getPitch() {
+        return this.pitch;
+    }
+
+    public float getYaw() {
+        return this.yaw;
+    }
+
+    public World getBukkitWorld() {
+        return this.world;
+    }
+
+    public Vector getDirection() {
         var vxz = -Math.cos(Math.toRadians(this.pitch));
         var vy = -Math.sin(Math.toRadians(this.pitch));
         var vx = -vxz * Math.sin(Math.toRadians(this.yaw));
         var vz = vxz * Math.cos(Math.toRadians(this.yaw));
+        return new Vector(vx, vy, vz);
+    }
 
-        vx *= shift;
-        vy *= shift;
-        vz *= shift;
+    public Location setDirection(Vector vector) {
+        var x = vector.getX();
+        var z = vector.getZ();
 
-        this.x -= vx;
-        this.y += vy;
-        this.z -= vz;
+        if(x == 0 && z == 0) {
+            if(vector.getY() > 0) {
+                this.pitch = -90;
+            } else {
+                this.pitch = 90;
+            }
+            return this;
+        }
 
+        this.yaw = (float) Math.toDegrees((Math.atan2(-x, z) + Math.TAU) % Math.TAU);
+        this.pitch = (float) Math.toDegrees(Math.atan(-vector.getY() / (Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)))));
         return this;
+    }
+
+    public Location shiftForward(float shift) {
+        return this.shift(this.getDirection().multiply(shift));
+    }
+
+    public Location faceLocation(Location other) {
+        return this.setDirection(other.toVector().subtract(this.toVector()));
     }
 
     public Location clone() {
@@ -104,5 +169,9 @@ public final class Location {
 
     public String toString() {
         return "[" + this.x + ", " + this.y + ", " + this.z + ", " + this.pitch + ", " + this.yaw + "]";
+    }
+
+    public Vector toVector() {
+        return new Vector(this.x, this.y, this.z);
     }
 }
