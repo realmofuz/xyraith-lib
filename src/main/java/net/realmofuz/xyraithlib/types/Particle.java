@@ -8,7 +8,6 @@ public class Particle {
     int amount = 1;
     int spreadX = 0;
     int spreadY = 0;
-
     int spreadZ = 0;
     int speed = 0;
 

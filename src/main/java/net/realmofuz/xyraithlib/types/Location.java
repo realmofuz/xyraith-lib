@@ -81,6 +81,11 @@ public final class Location {
         return this;
     }
 
+    public Location setWorld(String worldName) {
+        this.world = Bukkit.getWorld(worldName);
+        return this;
+    }
+
     public Location shift(double x, double y, double z) {
         this.x += x;
         this.y += y;
