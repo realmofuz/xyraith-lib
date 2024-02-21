@@ -4,6 +4,9 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.title.Title;
 import net.realmofuz.xyraithlib.Utils;
 import net.realmofuz.xyraithlib.actions.EntityDataStorage;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -49,6 +52,45 @@ public final class SingleSelection {
                 Utils.deserialize(subtitle),
                 Title.Times.times(Duration.ofSeconds(fadeIn), Duration.ofSeconds(stay), Duration.ofSeconds(fadeOut))
         ));
+    }
+
+    public void showBossbar(String name, float progress, BossBar.Color color, BossBar.Overlay overlay) {
+        entity.showBossBar(BossBar.bossBar(
+                Utils.deserialize(name),
+                progress,
+                color,
+                overlay
+        ));
+    }
+
+    public void displayBlock(Location location, Material material) {
+        if(entity instanceof Player) {
+            ((Player) entity).sendBlockChange(location.toBukkitLocation(), material.createBlockData());
+        }
+    }
+
+    public void displayBlockDamage(Location location, int damage) {
+        if(entity instanceof Player) {
+            ((Player) entity).sendBlockDamage(location.toBukkitLocation(), damage);
+        }
+    }
+
+    public void playSound(Location location, Sound sound) {
+        if(entity instanceof Player) {
+            ((Player) entity).playSound(location.toBukkitLocation(), sound, 2.0f, 1.0f);
+        }
+    }
+
+    public void playSound(Location location, Sound sound, float volume) {
+        if(entity instanceof Player) {
+            ((Player) entity).playSound(location.toBukkitLocation(), sound, volume, 1.0f);
+        }
+    }
+
+    public void playSound(Location location, Sound sound, float volume, float pitch) {
+        if(entity instanceof Player) {
+            ((Player) entity).playSound(location.toBukkitLocation(), sound, volume, pitch);
+        }
     }
 
     public void setHealth(float health) {

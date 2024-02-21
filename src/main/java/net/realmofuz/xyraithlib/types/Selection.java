@@ -1,9 +1,11 @@
 package net.realmofuz.xyraithlib.types;
 
+import net.realmofuz.xyraithlib.lambdas.BooleanLambda;
 import net.realmofuz.xyraithlib.lambdas.SelectionLambda;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Selection {
@@ -24,7 +26,17 @@ public final class Selection {
         }
     }
 
-    public List<Entity> getTargets() {
+    public Selection filter(BooleanLambda lambda) {
+        var targets2 = new ArrayList<Entity>();
+        for(Entity entity : targets) {
+            if(lambda.run(new SingleSelection(entity))) {
+                targets2.add(entity);
+            }
+        }
+        return new Selection(targets2);
+    }
+
+    List<Entity> getTargets() {
         for(Entity entity : targets) {
             if(entity.isDead()) {
                 targets.remove(entity);
